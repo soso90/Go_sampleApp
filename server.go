@@ -1,24 +1,27 @@
 package main
 
 import (
-	"net/http"
+	"Go_sampleApp/controllers"
 
 	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 )
 
 func main() {
 	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
-	e.GET("/show", show)
-	e.Logger.Fatal(e.Start(":1323"))
-}
 
-//e.GET("/show", show)
-func show(c echo.Context) error {
-	// Get team and member from the query string
-	team := c.QueryParam("team")
-	member := c.QueryParam("member")
-	return c.String(http.StatusOK, "team:"+team+", member:"+member)
+	// Middleware
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+	e.Use(middleware.CORS()) // CORS
+	// static
+	e.Static("/static", "static")
+	// controller initialaize
+	// MainController
+	controllers.MainController{}.Init(e.Group("/"))
+
+	// Server
+	e.Start(":1323")
+
+	//e.Logger.Fatal(e.Start(":1323"))
 }
