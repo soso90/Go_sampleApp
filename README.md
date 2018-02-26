@@ -1,2 +1,2 @@
 # Go_sampleApp
-Go 웹프레임 워크 샘플
+Go & echo 웹프레임 워크 샘플
